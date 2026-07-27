@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конструктор звіту</title>
+    <!-- Подключаем скрипт Telegram Web App -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            padding: 15px;
+            margin: 0;
+        }
+        h3 { margin-top: 0; }
+        .field { margin-bottom: 15px; }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--tg-theme-hint-color, #999999);
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
+            border-radius: 8px;
+            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            color: var(--tg-theme-text-color, #000000);
+            font-size: 16px;
+            font-family: inherit;
+        }
+        textarea {
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+
+    <h3>✈️ Дані по авіації</h3>
+
+    <div class="field">
+        <label>Ту-95мс:</label>
+        <textarea id="tu95" rows="3">не відмічено активності.</textarea>
+    </div>
+
+    <div class="field">
+        <label>Ту-22м3:</label>
+        <textarea id="tu22" rows="3">не відмічено активності.</textarea>
+    </div>
+
+    <div class="field">
+        <label>Ту-160:</label>
+        <textarea id="tu160" rows="3">не відмічено активності.</textarea>
+    </div>
+
+    <div class="field">
+        <label>МіГ-31К:</label>
+        <textarea id="mig31" rows="3">не відмічено активності.</textarea>
+    </div>
+
+    <h3>⚠️ Рівень загрози</h3>
+    <div class="field">
+        <label>Імовірність обстрілу:</label>
+        <select id="threat">
+            <option value="low">🟢 Низька</option>
+            <option value="medium">🟡 Середня</option>
+            <option value="high">🔴 Висока</option>
+        </select>
+    </div>
+
+    <script>
+        // Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Открываем на весь экран
+
+        // Настраиваем главную кнопку внизу экрана
+        tg.MainButton.text = "ЗБЕРЕГТИ ТА ЗАПЛАНУВАТИ НА 23:00";
+        tg.MainButton.show();
+
+        // Обработка нажатия на главную кнопку
+        tg.MainButton.onClick(() => {
+            // Собираем данные из полей
+            const data = {
+                tu95: document.getElementById('tu95').value,
+                tu22: document.getElementById('tu22').value,
+                tu160: document.getElementById('tu160').value,
+                mig31: document.getElementById('mig31').value,
+                threat: document.getElementById('threat').value
+            };
+
+            // Отправляем JSON-строку боту и закрываем окно
+            tg.sendData(JSON.stringify(data));
+        });
+    </script>
+</body>
+</html>
